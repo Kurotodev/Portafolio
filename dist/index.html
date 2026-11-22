@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#080808" />
+    <meta name="description" content="Portafolio de Kuroto: desarrollo full-stack, edge computing, sistemas y security research." />
+    <meta property="og:title" content="Kuroto — Full-Stack & Security" />
+    <meta property="og:description" content="Productos web, infraestructura edge y trabajo cerca del metal." />
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/58406504?v=4" />
+    <title>Kuroto — Full-Stack & Security</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <div class="noise" aria-hidden="true"></div>
+
+    <header class="site-header" data-header>
+      <a class="brand" href="#inicio" aria-label="Kuroto, inicio">
+        <span class="brand-mark">K/</span>
+        <span>KUROTO</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span>
+      </button>
+      <nav class="site-nav" aria-label="Navegación principal" data-nav>
+        <a href="#perfil">Perfil</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#stack">Stack</a>
+        <a class="nav-contact" href="#contacto">Hablemos</a>
+      </nav>
+    </header>
+
+    <main id="contenido">
+      <section class="hero" id="inicio">
+        <div class="hero-grid" aria-hidden="true"></div>
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span></span> Disponible para nuevos proyectos</p>
+          <h1>Construyo sistemas<br />que responden cuando<br /><em>más importa.</em></h1>
+          <p class="hero-lead">
+            Soy <strong>Kuroto</strong>, desarrollador full-stack en Canadá. Diseño productos web,
+            sistemas serverless en el edge y herramientas que viven cerca del metal.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#proyectos">Explorar proyectos</a>
+            <a class="button button-ghost" href="https://github.com/Kurotodev" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" data-delay="1">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="portrait-frame">
+            <div class="portrait-glow"></div>
+            <img src="https://avatars.githubusercontent.com/u/58406504?v=4" alt="Avatar de Kuroto" width="460" height="460" />
+            <div class="portrait-tag"><span></span> KUROTO.DEV</div>
+          </div>
+          <div class="floating-code code-top" aria-hidden="true">
+            <span>EDGE_NODE</span><strong>ONLINE</strong>
+          </div>
+          <div class="floating-code code-bottom" aria-hidden="true">
+            <span>LATENCY</span><strong>&lt; 50MS</strong>
+          </div>
+        </div>
+
+        <div class="hero-index" aria-hidden="true">01 / PORTFOLIO</div>
+      </section>
+
+      <section class="signal-strip" aria-label="Áreas de especialidad">
+        <div class="signal-track">
+          <span>FULL-STACK ENGINEERING</span><i></i>
+          <span>EDGE COMPUTING</span><i></i>
+          <span>SECURITY RESEARCH</span><i></i>
+          <span>SYSTEMS PROGRAMMING</span><i></i>
+          <span>REVERSE ENGINEERING</span><i></i>
+          <span>FULL-STACK ENGINEERING</span><i></i>
+          <span>EDGE COMPUTING</span><i></i>
+        </div>
+      </section>
+
+      <section class="section profile" id="perfil">
+        <div class="section-heading reveal">
+          <p class="section-kicker">/ PERFIL</p>
+          <h2>Producto limpio.<br /><span>Ingeniería profunda.</span></h2>
+        </div>
+        <div class="profile-layout">
+          <div class="profile-copy reveal">
+            <p class="large-copy">
+              Me interesan los problemas que cruzan la frontera entre una experiencia clara
+              y los detalles internos que la hacen rápida, segura y confiable.
+            </p>
+            <p>
+              Trabajo de punta a punta: interfaces, APIs, autenticación, datos, despliegue y
+              observabilidad. Cuando el problema lo exige, bajo de nivel hacia memoria,
+              networking y análisis de binarios.
+            </p>
+          </div>
+          <div class="profile-cards">
+            <article class="capability-card reveal" data-delay="1">
+              <span class="capability-icon">{ }</span>
+              <h3>Product Engineering</h3>
+              <p>Aplicaciones web completas, paneles, APIs y experiencias pensadas para producción.</p>
+              <ul><li>TypeScript</li><li>Next.js</li><li>WebSockets</li></ul>
+            </article>
+            <article class="capability-card reveal" data-delay="2">
+              <span class="capability-icon">⌁</span>
+              <h3>Edge & Cloud</h3>
+              <p>Arquitecturas serverless distribuidas, almacenamiento y ejecución cerca del usuario.</p>
+              <ul><li>Cloudflare Workers</li><li>PostgreSQL</li><li>Redis</li></ul>
+            </article>
+            <article class="capability-card reveal" data-delay="3">
+              <span class="capability-icon">0x</span>
+              <h3>Systems & Security</h3>
+              <p>Programación de sistemas, análisis de memoria y reverse engineering aplicado.</p>
+              <ul><li>C / C++</li><li>Ghidra</li><li>x64dbg</li></ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section projects" id="proyectos">
+        <div class="section-heading projects-heading reveal">
+          <div>
+            <p class="section-kicker">/ TRABAJO SELECCIONADO</p>
+            <h2>Proyectos públicos.</h2>
+          </div>
+          <a class="text-link" href="https://github.com/Kurotodev?tab=repositories" target="_blank" rel="noreferrer">Ver todos en GitHub <span>↗</span></a>
+        </div>
+
+        <div class="project-list">
+          <a class="project-card project-featured reveal" href="https://github.com/Kurotodev/fingerprintv2" target="_blank" rel="noreferrer">
+            <div class="project-meta"><span>01</span><span>OPEN SOURCE · TYPESCRIPT</span></div>
+            <div class="project-content">
+              <div>
+                <h3>fingerprintv2</h3>
+                <p>Fingerprinting transparente para navegador con matching ponderado y tolerante a cambios.</p>
+              </div>
+              <span class="project-open" aria-hidden="true">↗</span>
+            </div>
+            <div class="project-terminal" aria-hidden="true">
+              <div class="terminal-bar"><i></i><i></i><i></i><span>fingerprint.ts</span></div>
+              <pre><code><b>const</b> agent = <b>await</b> FingerprintV2.load()
+<b>const</b> result = <b>await</b> agent.get()
+
+<span>// weighted, change-tolerant match</span>
+compareSignatures(previous, result.signature)</code></pre>
+            </div>
+          </a>
+
+          <a class="project-card reveal" href="https://github.com/Kurotodev/gofile-free-api" target="_blank" rel="noreferrer">
+            <div class="project-meta"><span>02</span><span>NODE.JS · API</span></div>
+            <div class="project-content"><div><h3>gofile-free-api</h3><p>Wrapper backend sin costo para uploads, enlaces, consulta y descarga de contenido en Gofile.</p></div><span class="project-open">↗</span></div>
+          </a>
+
+          <a class="project-card reveal" data-delay="1" href="https://github.com/Kurotodev/KS-VEHICLE-KEYS" target="_blank" rel="noreferrer">
+            <div class="project-meta"><span>03</span><span>LUA · FIVEM</span></div>
+            <div class="project-content"><div><h3>KS Vehicle Keys</h3><p>Sistema gratuito de llaves de vehículos para servidores FiveM.</p></div><span class="project-open">↗</span></div>
+          </a>
+
+          <a class="project-card reveal" href="https://github.com/Kurotodev/KM-MINECRAFT-FABRIC-LAUNCHER" target="_blank" rel="noreferrer">
+            <div class="project-meta"><span>04</span><span>PYTHON · DESKTOP</span></div>
+            <div class="project-content"><div><h3>Fabric Launcher</h3><p>Launcher de Minecraft Fabric construido en Python con un flujo directo y simple.</p></div><span class="project-open">↗</span></div>
+          </a>
+
+          <a class="project-card reveal" data-delay="1" href="https://github.com/Kurotodev/BookingDoctor" target="_blank" rel="noreferrer">
+            <div class="project-meta"><span>05</span><span>JAVA · SOFTWARE</span></div>
+            <div class="project-content"><div><h3>Booking Doctor</h3><p>Sistema de gestión para pacientes, personal médico y registro de citas.</p></div><span class="project-open">↗</span></div>
+          </a>
+        </div>
+      </section>
+
+      <section class="section stack" id="stack">
+        <div class="section-heading reveal">
+          <p class="section-kicker">/ HERRAMIENTAS</p>
+          <h2>Un stack amplio,<br /><span>una sola obsesión: resolver.</span></h2>
+        </div>
+        <div class="stack-grid">
+          <article class="stack-group reveal">
+            <p>01 — FRONTEND</p>
+            <div><span>TypeScript</span><span>JavaScript</span><span>Vue.js</span><span>Next.js</span><span>HTML / CSS</span></div>
+          </article>
+          <article class="stack-group reveal" data-delay="1">
+            <p>02 — BACKEND & DATA</p>
+            <div><span>Node.js</span><span>.NET</span><span>PostgreSQL</span><span>MongoDB</span><span>Redis</span><span>SQLite</span></div>
+          </article>
+          <article class="stack-group reveal" data-delay="2">
+            <p>03 — SYSTEMS</p>
+            <div><span>C</span><span>C++</span><span>C#</span><span>Python</span><span>Lua</span><span>Assembly</span><span>Java</span></div>
+          </article>
+          <article class="stack-group reveal" data-delay="3">
+            <p>04 — PLATFORM & SECURITY</p>
+            <div><span>Cloudflare Workers</span><span>OAuth2</span><span>JWT</span><span>Ghidra</span><span>IDA Pro</span><span>x64dbg</span></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="contact" id="contacto">
+        <div class="contact-inner reveal">
+          <p class="section-kicker">/ CONTACTO</p>
+          <h2>¿Tienes un problema<br />difícil de resolver?</h2>
+          <p>Hablemos de producto, infraestructura, seguridad o esa idea que todavía no tiene nombre.</p>
+          <div class="contact-links">
+            <a class="button button-light" href="https://discord.gg/AjhhfKbDFH" target="_blank" rel="noreferrer">Abrir Discord</a>
+            <a class="button button-outline-light" href="https://github.com/Kurotodev" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="button button-outline-light" href="https://instagram.com/kuro_to_shiro_" target="_blank" rel="noreferrer">Instagram</a>
+          </div>
+        </div>
+        <div class="contact-mark" aria-hidden="true">K/</div>
+      </section>
+    </main>
+
+    <footer>
+      <a class="brand" href="#inicio"><span class="brand-mark">K/</span><span>KUROTO</span></a>
+      <p>Diseñado y desarrollado con intención.</p>
+      <p>© <span data-year></span> Kuroto · Canadá</p>
+    </footer>
+  </body>
+</html>
