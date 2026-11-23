@@ -7,6 +7,8 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 if (navigationWheel && wheelOrbit && wheelLinks.length) {
   const wheelSections = wheelLinks.map((link) => document.querySelector(link.getAttribute('href')))
   const wheelStep = 360 / wheelLinks.length
+  const wheelRadiusX = 46
+  const wheelRadiusY = 36
   let wheelRotation = 270
   let selectedWheelIndex = 0
   let wheelFrame = 0
@@ -19,32 +21,32 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
   function buildNavigationCurve() {
     if (!wheelCurve) return
 
-    let path = ''
-    let drawing = false
-
-    for (let angle = 211; angle <= 329; angle += 1) {
-      const isGap = Math.abs(shortestAngle(angle - 270)) <= 13
-
-      if (isGap) {
-        drawing = false
-        continue
-      }
-
+    const point = (angle) => {
       const radians = angle * (Math.PI / 180)
-      const x = 50 + Math.sin(radians) * 46
-      const y = 50 - Math.cos(radians) * 36
-      path += `${drawing ? ' L' : ' M'} ${x.toFixed(2)} ${y.toFixed(2)}`
-      drawing = true
+      const x = 50 + Math.sin(radians) * wheelRadiusX
+      const y = 50 - Math.cos(radians) * wheelRadiusY
+      return `${x.toFixed(4)} ${y.toFixed(4)}`
     }
 
-    wheelCurve.setAttribute('d', path)
+    // All segments share one ellipse. Only the label positions interrupt the stroke.
+    const gaps = wheelLinks.map((_, index) => ({
+      angle: 270 + index * wheelStep,
+      halfWidth: index === 0 ? 7 : 15
+    }))
+    const segments = gaps.map((gap, index) => {
+      const nextGap = gaps[index + 1] ?? { ...gaps[0], angle: gaps[0].angle + 360 }
+      const start = point(gap.angle + gap.halfWidth)
+      const end = point(nextGap.angle - nextGap.halfWidth)
+      return `M ${start} A ${wheelRadiusX} ${wheelRadiusY} 0 0 1 ${end}`
+    })
+    wheelCurve.setAttribute('d', segments.join(' '))
   }
 
   function renderNavigationWheel() {
     wheelFrame = 0
     const bounds = wheelOrbit.getBoundingClientRect()
-    const radiusX = bounds.width * 0.46
-    const radiusY = bounds.height * 0.36
+    const radiusX = bounds.width * wheelRadiusX / 100
+    const radiusY = bounds.height * wheelRadiusY / 100
 
     wheelLinks.forEach((link, index) => {
       const angle = normalizedAngle(index * wheelStep + wheelRotation)
