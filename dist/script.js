@@ -34,6 +34,97 @@ document.querySelectorAll('[data-age]').forEach((element) => {
   element.textContent = String(currentAge)
 })
 
+const letterMotionSelector = [
+  'h1',
+  'h2',
+  'h3',
+  'p',
+  'dt',
+  'dd',
+  '.brand',
+  '.site-nav a',
+  '.button',
+  '.passport-document-header > span',
+  '.passport-document-footer span',
+  '.signal-track span',
+  '.stack-group span'
+].join(',')
+
+function splitTextIntoLetters(element) {
+  const readableText = element.textContent.replace(/\s+/g, ' ').trim()
+  if (!readableText || element.closest('svg, [aria-hidden="true"]')) return
+
+  if (!element.hasAttribute('aria-label')) element.setAttribute('aria-label', readableText)
+
+  let letterIndex = 0
+  const textNodes = []
+  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+
+  while (walker.nextNode()) textNodes.push(walker.currentNode)
+
+  textNodes.forEach((textNode) => {
+    if (!textNode.nodeValue.trim()) return
+
+    const fragment = document.createDocumentFragment()
+    textNode.nodeValue.split(/(\s+)/).forEach((part) => {
+      if (!part) return
+      if (/^\s+$/.test(part)) {
+        if (element.matches('.button')) {
+          const space = document.createElement('span')
+          space.className = 'letter-space'
+          space.setAttribute('aria-hidden', 'true')
+          space.textContent = '\u00A0'
+          fragment.appendChild(space)
+        } else {
+          fragment.appendChild(document.createTextNode(' '))
+        }
+        return
+      }
+
+      const word = document.createElement('span')
+      word.className = 'letter-word'
+      word.setAttribute('aria-hidden', 'true')
+
+      Array.from(part).forEach((letter) => {
+        const character = document.createElement('span')
+        character.className = 'letter-char'
+        character.style.setProperty('--letter-index', String(Math.min(letterIndex, 48)))
+        character.textContent = letter
+        word.appendChild(character)
+        letterIndex += 1
+      })
+
+      fragment.appendChild(word)
+    })
+
+    textNode.replaceWith(fragment)
+  })
+
+  element.classList.add('letter-motion')
+}
+
+const letterMotionElements = Array.from(document.querySelectorAll(letterMotionSelector))
+
+if (!reduceMotion) {
+  letterMotionElements.forEach(splitTextIntoLetters)
+
+  const showLetters = (element) => element.classList.add('letters-visible')
+
+  if ('IntersectionObserver' in window) {
+    const letterObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        showLetters(entry.target)
+        letterObserver.unobserve(entry.target)
+      })
+    }, { threshold: 0.08, rootMargin: '0px 0px -24px' })
+
+    document.querySelectorAll('.letter-motion').forEach((element) => letterObserver.observe(element))
+  } else {
+    document.querySelectorAll('.letter-motion').forEach(showLetters)
+  }
+}
+
 const revealElements = document.querySelectorAll('.reveal')
 
 if (reduceMotion || !('IntersectionObserver' in window)) {
