@@ -570,6 +570,33 @@ footer .brand { color: var(--ink); }
   }
 }
 
+/* Explicitly reset the original two-column hero grid. */
+.hero {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 1fr;
+  column-gap: 0;
+  row-gap: 0;
+  justify-items: center;
+  align-items: center;
+}
+.hero-inner {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  justify-self: center;
+  align-self: center;
+  width: min(100%, 980px);
+  max-width: 980px;
+  margin-inline: auto;
+}
+.hero-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 940px);
+  margin-inline: auto;
+}
+.hero h1, .hero-lead, .hero-identity { width: 100%; text-align: center; }
+
 @media (prefers-reduced-motion: reduce) {
   .hero-inner .availability-sticker {
     opacity: 1;
