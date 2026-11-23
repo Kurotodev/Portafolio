@@ -23,7 +23,7 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
     wheelLinks.forEach((link, index) => {
       const angle = normalizedAngle(index * wheelStep + wheelRotation)
       const radians = angle * (Math.PI / 180)
-      const x = Math.sin(radians) * radiusX - 8
+      const x = Math.sin(radians) * radiusX
       const y = -Math.cos(radians) * radiusY
       link.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`
       const isSelected = index === selectedWheelIndex

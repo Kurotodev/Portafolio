@@ -1300,13 +1300,16 @@ main,
 
 .nav-wheel {
   top: 0;
-  right: -185px;
+  right: -145px;
   width: 310px;
   height: 460px;
   border-radius: 50%;
 }
 
-.nav-wheel-ring { border-color: rgba(255, 255, 255, .16); }
+.nav-wheel-ring {
+  inset: 14% 4%;
+  border-color: rgba(255, 255, 255, .16);
+}
 
 .nav-wheel-link {
   min-width: 82px;
@@ -1343,10 +1346,11 @@ main,
   }
   .nav-wheel {
     top: 0;
-    right: -145px;
+    right: -105px;
     width: 240px;
     height: 350px;
   }
+  .nav-wheel-ring { inset: 14% 4%; }
   .nav-wheel-link { min-width: 68px; padding: .3rem .4rem; font-size: .55rem; box-shadow: 0 0 0 5px #000; }
 }
 
