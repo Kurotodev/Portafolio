@@ -88,7 +88,7 @@ function splitTextIntoLetters(element) {
       Array.from(part).forEach((letter) => {
         const character = document.createElement('span')
         character.className = 'letter-char'
-        character.style.setProperty('--letter-index', String(Math.min(letterIndex, 48)))
+        character.style.setProperty('--letter-index', String(Math.min(letterIndex, 24)))
         character.textContent = letter
         word.appendChild(character)
         letterIndex += 1
@@ -108,7 +108,10 @@ const letterMotionElements = Array.from(document.querySelectorAll(letterMotionSe
 if (!reduceMotion) {
   letterMotionElements.forEach(splitTextIntoLetters)
 
-  const showLetters = (element) => element.classList.add('letters-visible')
+  const showLetters = (element) => {
+    element.classList.add('letters-visible')
+    window.setTimeout(() => element.classList.add('letters-settled'), 850)
+  }
 
   if ('IntersectionObserver' in window) {
     const letterObserver = new IntersectionObserver((entries) => {

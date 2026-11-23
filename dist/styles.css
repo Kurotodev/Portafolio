@@ -987,15 +987,18 @@ footer .brand { color: var(--ink); }
 .letter-char {
   display: inline-block;
   opacity: 0;
-  filter: blur(5px);
-  transform: translateY(.75em) rotateX(-65deg) scale(.94);
-  transform-origin: 50% 100%;
-  will-change: opacity, filter, transform;
+  transform: translateY(.42em);
 }
 
 .letters-visible .letter-char {
-  animation: letter-rise .62s cubic-bezier(.18, .82, .22, 1) both;
-  animation-delay: calc(var(--letter-index) * 14ms);
+  animation: letter-rise .42s cubic-bezier(.2, .78, .22, 1) both;
+  animation-delay: calc(var(--letter-index) * 12ms);
+}
+
+.letters-settled .letter-char {
+  opacity: 1;
+  transform: none;
+  animation: none;
 }
 
 .button .letter-char,
@@ -1007,19 +1010,17 @@ footer .brand { color: var(--ink); }
 .passport-document-footer .letter-char,
 .signal-track .letter-char,
 .stack-group > div .letter-char {
-  animation-delay: calc(var(--letter-index) * 22ms);
+  animation-delay: calc(var(--letter-index) * 16ms);
 }
 
 @keyframes letter-rise {
-  0% { opacity: 0; filter: blur(5px); transform: translateY(.75em) rotateX(-65deg) scale(.94); }
-  55% { opacity: 1; filter: blur(1px); }
-  100% { opacity: 1; filter: blur(0); transform: translateY(0) rotateX(0) scale(1); }
+  0% { opacity: 0; transform: translateY(.42em); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .letter-char {
     opacity: 1;
-    filter: none;
     transform: none;
     animation: none;
   }
