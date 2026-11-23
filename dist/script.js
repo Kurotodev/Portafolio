@@ -1,68 +1,29 @@
-const header = document.querySelector('[data-header]')
-const menuToggle = document.querySelector('[data-menu-toggle]')
-const navigation = document.querySelector('[data-nav]')
 const navigationWheel = document.querySelector('[data-nav-wheel]')
 const wheelOrbit = document.querySelector('[data-wheel-orbit]')
 const wheelLinks = Array.from(document.querySelectorAll('[data-wheel-link]'))
-const wheelGo = document.querySelector('[data-wheel-go]')
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-function updateHeader() {
-  header?.classList.toggle('scrolled', window.scrollY > 24)
-}
-
-function closeMenu() {
-  menuToggle?.setAttribute('aria-expanded', 'false')
-  menuToggle?.setAttribute('aria-label', 'Open menu')
-  navigation?.classList.remove('open')
-}
-
-menuToggle?.addEventListener('click', () => {
-  const willOpen = menuToggle.getAttribute('aria-expanded') !== 'true'
-  menuToggle.setAttribute('aria-expanded', String(willOpen))
-  menuToggle.setAttribute('aria-label', willOpen ? 'Close menu' : 'Open menu')
-  navigation?.classList.toggle('open', willOpen)
-})
-
-navigation?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu))
-window.addEventListener('scroll', updateHeader, { passive: true })
-updateHeader()
-
 if (navigationWheel && wheelOrbit && wheelLinks.length) {
-  let wheelRotation = 0
+  const wheelSections = wheelLinks.map((link) => document.querySelector(link.getAttribute('href')))
+  const wheelStep = 360 / wheelLinks.length
+  let wheelRotation = 270
   let selectedWheelIndex = 0
-  let dragStartAngle = 0
-  let dragStartRotation = 0
-  let isDraggingWheel = false
   let wheelFrame = 0
 
   const normalizedAngle = (angle) => ((angle % 360) + 360) % 360
   const shortestAngle = (angle) => ((angle + 540) % 360) - 180
 
-  function pointerAngle(event) {
-    const bounds = navigationWheel.getBoundingClientRect()
-    const centerX = bounds.left + bounds.width / 2
-    const centerY = bounds.top + bounds.width / 2
-    return Math.atan2(event.clientY - centerY, event.clientX - centerX) * (180 / Math.PI)
-  }
-
   function renderNavigationWheel() {
     wheelFrame = 0
     const size = wheelOrbit.getBoundingClientRect().width
-    const radius = size * 0.39
-
-    wheelOrbit.style.setProperty('--wheel-rotation', `${wheelRotation}deg`)
+    const radius = size * 0.4
 
     wheelLinks.forEach((link, index) => {
-      const angle = normalizedAngle(index * 90 + wheelRotation)
+      const angle = normalizedAngle(index * wheelStep + wheelRotation)
       const radians = angle * (Math.PI / 180)
       const x = Math.sin(radians) * radius
       const y = -Math.cos(radians) * radius
       link.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`
-    })
-
-    selectedWheelIndex = ((Math.round(-wheelRotation / 90) % wheelLinks.length) + wheelLinks.length) % wheelLinks.length
-    wheelLinks.forEach((link, index) => {
       const isSelected = index === selectedWheelIndex
       link.classList.toggle('is-selected', isSelected)
       if (isSelected) link.setAttribute('aria-current', 'true')
@@ -74,62 +35,38 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
     if (!wheelFrame) wheelFrame = window.requestAnimationFrame(renderNavigationWheel)
   }
 
-  function rotateWheelBy(delta) {
-    wheelRotation += delta
+  function syncWheelToPage() {
+    const checkpoint = window.scrollY + window.innerHeight * 0.46
+    let nextIndex = 0
+
+    wheelSections.forEach((section, index) => {
+      if (section && section.offsetTop <= checkpoint) nextIndex = index
+    })
+
+    if (nextIndex === selectedWheelIndex) return
+    selectedWheelIndex = nextIndex
+    const targetRotation = 270 - selectedWheelIndex * wheelStep
+    wheelRotation += shortestAngle(targetRotation - wheelRotation)
     queueWheelRender()
   }
 
-  function openSelectedWheelLink() {
-    wheelLinks[selectedWheelIndex]?.click()
-  }
-
-  navigationWheel.addEventListener('wheel', (event) => {
-    event.preventDefault()
-    rotateWheelBy(Math.sign(event.deltaY) * 12)
-  }, { passive: false })
-
-  navigationWheel.addEventListener('pointerdown', (event) => {
-    if (event.target.closest('a, button')) return
-    isDraggingWheel = true
-    dragStartAngle = pointerAngle(event)
-    dragStartRotation = wheelRotation
-    navigationWheel.classList.add('is-dragging')
-    navigationWheel.setPointerCapture(event.pointerId)
-  })
-
-  navigationWheel.addEventListener('pointermove', (event) => {
-    if (!isDraggingWheel) return
-    wheelRotation = dragStartRotation + shortestAngle(pointerAngle(event) - dragStartAngle)
-    queueWheelRender()
-  })
-
-  function stopWheelDrag(event) {
-    if (!isDraggingWheel) return
-    isDraggingWheel = false
-    navigationWheel.classList.remove('is-dragging')
-    if (navigationWheel.hasPointerCapture(event.pointerId)) navigationWheel.releasePointerCapture(event.pointerId)
-    wheelRotation = Math.round(wheelRotation / 90) * 90
-    queueWheelRender()
-  }
-
-  navigationWheel.addEventListener('pointerup', stopWheelDrag)
-  navigationWheel.addEventListener('pointercancel', stopWheelDrag)
   navigationWheel.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
       event.preventDefault()
-      rotateWheelBy(-90)
+      wheelLinks[Math.min(selectedWheelIndex + 1, wheelLinks.length - 1)]?.click()
     } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
       event.preventDefault()
-      rotateWheelBy(90)
+      wheelLinks[Math.max(selectedWheelIndex - 1, 0)]?.click()
     } else if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault()
-      openSelectedWheelLink()
+      wheelLinks[selectedWheelIndex]?.click()
     }
   })
 
-  wheelGo?.addEventListener('click', openSelectedWheelLink)
   window.addEventListener('resize', queueWheelRender)
+  window.addEventListener('scroll', syncWheelToPage, { passive: true })
   renderNavigationWheel()
+  syncWheelToPage()
 }
 
 document.querySelectorAll('[data-year]').forEach((element) => {
