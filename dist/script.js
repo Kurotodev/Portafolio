@@ -9,6 +9,7 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
   let wheelRotation = 270
   let selectedWheelIndex = 0
   let wheelFrame = 0
+  let wheelScrollLocked = false
 
   const normalizedAngle = (angle) => ((angle % 360) + 360) % 360
   const shortestAngle = (angle) => ((angle + 540) % 360) - 180
@@ -63,6 +64,23 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
       wheelLinks[selectedWheelIndex]?.click()
     }
   })
+
+  navigationWheel.addEventListener('wheel', (event) => {
+    event.preventDefault()
+
+    if (wheelScrollLocked || Math.abs(event.deltaY) < 8) return
+
+    const direction = event.deltaY > 0 ? 1 : -1
+    const nextIndex = Math.max(0, Math.min(wheelLinks.length - 1, selectedWheelIndex + direction))
+
+    if (nextIndex === selectedWheelIndex) return
+
+    wheelScrollLocked = true
+    wheelLinks[nextIndex].click()
+    window.setTimeout(() => {
+      wheelScrollLocked = false
+    }, 650)
+  }, { passive: false })
 
   window.addEventListener('resize', queueWheelRender)
   window.addEventListener('scroll', syncWheelToPage, { passive: true })
