@@ -52,3 +52,19 @@ if (reduceMotion || !('IntersectionObserver' in window)) {
 
   revealElements.forEach((element) => observer.observe(element))
 }
+
+const portrait = document.querySelector('[data-tilt]')
+const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+
+if (portrait && supportsHover && !reduceMotion) {
+  portrait.addEventListener('pointermove', (event) => {
+    const bounds = portrait.getBoundingClientRect()
+    const horizontal = (event.clientX - bounds.left) / bounds.width - 0.5
+    const vertical = (event.clientY - bounds.top) / bounds.height - 0.5
+    portrait.style.transform = `perspective(900px) rotateX(${vertical * -3}deg) rotateY(${horizontal * 4}deg) translateY(-3px)`
+  })
+
+  portrait.addEventListener('pointerleave', () => {
+    portrait.style.transform = ''
+  })
+}
