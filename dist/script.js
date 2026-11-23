@@ -18,12 +18,12 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
     wheelFrame = 0
     const bounds = wheelOrbit.getBoundingClientRect()
     const radiusX = bounds.width * 0.46
-    const radiusY = bounds.height * 0.42
+    const radiusY = bounds.height * 0.36
 
     wheelLinks.forEach((link, index) => {
       const angle = normalizedAngle(index * wheelStep + wheelRotation)
       const radians = angle * (Math.PI / 180)
-      const x = Math.sin(radians) * radiusX - 14
+      const x = Math.sin(radians) * radiusX - 8
       const y = -Math.cos(radians) * radiusY
       link.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`
       const isSelected = index === selectedWheelIndex
