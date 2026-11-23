@@ -28,10 +28,7 @@ document.querySelectorAll('[data-year]').forEach((element) => {
   element.textContent = String(new Date().getFullYear())
 })
 
-const today = new Date()
-let currentAge = today.getFullYear() - 2004
-const birthdayHasNotPassed = today.getMonth() < 8 || (today.getMonth() === 8 && today.getDate() < 25)
-if (birthdayHasNotPassed) currentAge -= 1
+const currentAge = new Date().getFullYear() - 2004
 
 document.querySelectorAll('[data-age]').forEach((element) => {
   element.textContent = String(currentAge)
