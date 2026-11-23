@@ -6,37 +6,37 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 
 if (navigationWheel && wheelOrbit && wheelLinks.length) {
   const wheelSections = wheelLinks.map((link) => document.querySelector(link.getAttribute('href')))
-  const wheelStep = 360 / wheelLinks.length
-  const wheelRadiusX = 46
-  const wheelRadiusY = 36
-  let wheelRotation = 270
+  const wheelSlots = [270, 322, 415, 485, 578]
+  const wheelCenterX = 88
+  const wheelRadiusX = 84
+  const wheelRadiusY = 43.5
   let selectedWheelIndex = 0
   let wheelFrame = 0
   let wheelScrollLocked = false
   let wheelTransitionTimer = 0
 
-  const normalizedAngle = (angle) => ((angle % 360) + 360) % 360
-  const shortestAngle = (angle) => ((angle + 540) % 360) - 180
+  function wheelPoint(angle) {
+    const radians = angle * (Math.PI / 180)
+    return {
+      x: wheelCenterX + Math.sin(radians) * wheelRadiusX,
+      y: 50 - Math.cos(radians) * wheelRadiusY
+    }
+  }
 
   function buildNavigationCurve() {
     if (!wheelCurve) return
 
     const point = (angle) => {
-      const radians = angle * (Math.PI / 180)
-      const x = 50 + Math.sin(radians) * wheelRadiusX
-      const y = 50 - Math.cos(radians) * wheelRadiusY
+      const { x, y } = wheelPoint(angle)
       return `${x.toFixed(4)} ${y.toFixed(4)}`
     }
 
-    // All segments share one ellipse. Only the label positions interrupt the stroke.
-    const gaps = wheelLinks.map((_, index) => ({
-      angle: 270 + index * wheelStep,
-      halfWidth: index === 0 ? 7 : 15
-    }))
-    const segments = gaps.map((gap, index) => {
-      const nextGap = gaps[index + 1] ?? { ...gaps[0], angle: gaps[0].angle + 360 }
-      const start = point(gap.angle + gap.halfWidth)
-      const end = point(nextGap.angle - nextGap.halfWidth)
+    // Move the ellipse's tips beyond the viewport so the visible ends keep curving.
+    const gap = 7
+    const segments = wheelSlots.map((angle, index) => {
+      const nextAngle = wheelSlots[index + 1] ?? wheelSlots[0] + 360
+      const start = point(angle + gap)
+      const end = point(nextAngle - gap)
       return `M ${start} A ${wheelRadiusX} ${wheelRadiusY} 0 0 1 ${end}`
     })
     wheelCurve.setAttribute('d', segments.join(' '))
@@ -45,14 +45,11 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
   function renderNavigationWheel() {
     wheelFrame = 0
     const bounds = wheelOrbit.getBoundingClientRect()
-    const radiusX = bounds.width * wheelRadiusX / 100
-    const radiusY = bounds.height * wheelRadiusY / 100
-
     wheelLinks.forEach((link, index) => {
-      const angle = normalizedAngle(index * wheelStep + wheelRotation)
-      const radians = angle * (Math.PI / 180)
-      const x = Math.sin(radians) * radiusX
-      const y = -Math.cos(radians) * radiusY
+      const slot = (index - selectedWheelIndex + wheelLinks.length) % wheelLinks.length
+      const point = wheelPoint(wheelSlots[slot])
+      const x = (point.x - 50) * bounds.width / 100
+      const y = (point.y - 50) * bounds.height / 100
       link.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`
       const isSelected = index === selectedWheelIndex
       link.classList.toggle('is-selected', isSelected)
@@ -88,8 +85,6 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
 
     if (nextIndex === selectedWheelIndex) return
     selectedWheelIndex = nextIndex
-    const targetRotation = 270 - selectedWheelIndex * wheelStep
-    wheelRotation += shortestAngle(targetRotation - wheelRotation)
     if (!reduceMotion) {
       navigationWheel.classList.add('is-rotating')
       window.clearTimeout(wheelTransitionTimer)
