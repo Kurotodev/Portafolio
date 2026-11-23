@@ -597,10 +597,109 @@ footer .brand { color: var(--ink); }
 }
 .hero h1, .hero-lead, .hero-identity { width: 100%; text-align: center; }
 
+/* Layered paint-splash availability animation */
+.availability-sticker {
+  top: -.35rem;
+  right: -3.5rem;
+  width: 250px;
+  height: 130px;
+  min-width: 0;
+  padding: 0;
+  color: white;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transform: rotate(4deg);
+}
+.paint-splash { position: absolute; inset: 0; display: block; width: 100%; height: 100%; overflow: visible; }
+.paint-layer, .paint-drop {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.paint-layer { transform: scale(.12) rotate(-14deg); filter: drop-shadow(5px 7px 0 rgba(0,0,0,.62)); }
+.paint-cyan { fill: #18bdd0; }
+.paint-magenta { fill: #e91675; }
+.paint-red { fill: #ff2a2a; }
+.paint-drop { transform: translateY(-18px) scale(.2); }
+.paint-drop-one, .paint-dot-two { fill: #ffd52d; }
+.paint-drop-two, .paint-dot-three { fill: #19c5d8; }
+.paint-dot-one { fill: #f02284; }
+.sticker-copy {
+  position: absolute;
+  z-index: 2;
+  top: 44px;
+  left: 50%;
+  display: grid;
+  width: 170px;
+  place-items: center;
+  opacity: 0;
+  color: white;
+  font-family: var(--font-mono);
+  line-height: 1.05;
+  text-align: center;
+  text-shadow: 2px 2px 0 rgba(0,0,0,.42);
+  text-transform: uppercase;
+  transform: translateX(-50%) scale(.72) rotate(-3deg);
+}
+.availability-sticker .sticker-copy small { font-size: .64rem; letter-spacing: .09em; }
+.availability-sticker .sticker-copy strong { margin-top: .2rem; font-size: .94rem; font-weight: 500; }
+.hero-inner .availability-sticker { opacity: 1; transform: rotate(4deg); }
+.hero-inner.visible .availability-sticker { animation: paint-sticker-float 4s 1.8s ease-in-out infinite; }
+.hero-inner.visible .paint-cyan { animation: paint-bloom .62s .43s cubic-bezier(.18,1.35,.34,1) forwards; }
+.hero-inner.visible .paint-magenta { animation: paint-bloom .58s .55s cubic-bezier(.18,1.35,.34,1) forwards; }
+.hero-inner.visible .paint-red { animation: paint-bloom .54s .67s cubic-bezier(.18,1.35,.34,1) forwards; }
+.hero-inner.visible .paint-drop-one { animation: paint-drip .5s .78s cubic-bezier(.2,1.35,.35,1) forwards; }
+.hero-inner.visible .paint-drop-two { animation: paint-drip .5s .86s cubic-bezier(.2,1.35,.35,1) forwards; }
+.hero-inner.visible .paint-dot-one { animation: paint-drip .42s .72s cubic-bezier(.2,1.35,.35,1) forwards; }
+.hero-inner.visible .paint-dot-two { animation: paint-drip .42s .82s cubic-bezier(.2,1.35,.35,1) forwards; }
+.hero-inner.visible .paint-dot-three { animation: paint-drip .42s .9s cubic-bezier(.2,1.35,.35,1) forwards; }
+.hero-inner.visible .sticker-copy { animation: paint-copy-in .52s 1.05s cubic-bezier(.2,1.35,.35,1) forwards; }
+
+@keyframes paint-bloom {
+  0% { opacity: 0; transform: scale(.12) rotate(-14deg); }
+  72% { opacity: 1; transform: scale(1.08) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+@keyframes paint-drip {
+  0% { opacity: 0; transform: translateY(-18px) scale(.2); }
+  70% { opacity: 1; transform: translateY(4px) scale(1.12); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes paint-copy-in {
+  0% { opacity: 0; transform: translateX(-50%) scale(.72) rotate(-3deg); }
+  70% { opacity: 1; transform: translateX(-50%) scale(1.08) rotate(1deg); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1) rotate(0); }
+}
+@keyframes paint-sticker-float {
+  0%, 100% { transform: rotate(4deg) translateY(0); }
+  50% { transform: rotate(2.5deg) translateY(-4px); }
+}
+
+@media (max-width: 1040px) {
+  .availability-sticker { top: 0; right: -.5rem; width: 220px; height: 116px; }
+  .sticker-copy { top: 39px; transform: translateX(-50%) scale(.72) rotate(-3deg); }
+}
+
+@media (max-width: 560px) {
+  .availability-sticker {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 210px;
+    height: 108px;
+    margin: .65rem auto -.2rem;
+  }
+  .sticker-copy { top: 36px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-inner .availability-sticker {
     opacity: 1;
     transform: rotate(4deg);
     animation: none !important;
   }
+  .paint-layer, .paint-drop { opacity: 1; transform: none; animation: none !important; }
+  .sticker-copy { opacity: 1; transform: translateX(-50%); animation: none !important; }
 }
