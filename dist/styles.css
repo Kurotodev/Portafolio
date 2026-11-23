@@ -475,3 +475,105 @@ footer .brand { color: var(--ink); }
   .reveal-left, .reveal-right { transform: none; }
   .bio-photo { transform: none !important; }
 }
+
+/* Centered English hero and cartoon availability sticker */
+.hero { text-align: center; }
+.hero-inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
+}
+.hero-mini {
+  position: relative;
+  width: min(100%, 940px);
+  margin-inline: auto;
+  text-align: center;
+}
+.hero-identity, .hero h1, .hero-lead { margin-left: auto; margin-right: auto; }
+.hero-actions { align-self: center; justify-content: center; }
+
+.availability-sticker {
+  position: absolute;
+  z-index: 4;
+  top: 1.25rem;
+  right: -2.4rem;
+  display: grid;
+  place-items: center;
+  min-width: 168px;
+  padding: .8rem 1.15rem .75rem;
+  color: white;
+  background: var(--red);
+  border: 3px solid #050505;
+  border-radius: 48% 52% 43% 57% / 54% 43% 57% 46%;
+  box-shadow: 6px 7px 0 #f4f1ed;
+  font-family: var(--font-mono);
+  line-height: 1.1;
+  text-transform: uppercase;
+  transform: rotate(5deg);
+}
+.availability-sticker span { font-size: .62rem; letter-spacing: .08em; }
+.availability-sticker strong { margin-top: .2rem; font-size: .85rem; font-weight: 500; }
+.availability-sticker i {
+  position: absolute;
+  top: -.65rem;
+  right: -.45rem;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: #050505;
+  background: #ffe55c;
+  border: 2px solid #050505;
+  border-radius: 50%;
+  font-size: .72rem;
+  font-style: normal;
+}
+.hero-inner .availability-sticker { opacity: 0; transform: rotate(5deg) scale(.65); }
+.hero-inner.visible .availability-sticker {
+  animation:
+    sticker-pop .65s .52s cubic-bezier(.2, 1.45, .35, 1) forwards,
+    sticker-float 3.2s 1.3s ease-in-out infinite;
+}
+
+.bio-intro { grid-template-columns: minmax(0, 1.2fr) minmax(290px, .68fr); }
+.bio-photo { width: min(100%, 400px); }
+.bio-photo img { aspect-ratio: 4 / 3; object-position: center 19%; }
+
+@keyframes sticker-pop {
+  to { opacity: 1; transform: rotate(5deg) scale(1); }
+}
+@keyframes sticker-float {
+  0%, 100% { transform: rotate(5deg) translateY(0); }
+  50% { transform: rotate(3deg) translateY(-5px); }
+}
+
+@media (max-width: 1040px) {
+  .availability-sticker { right: 0; top: 1.8rem; transform: rotate(4deg) scale(.9); }
+}
+
+@media (max-width: 820px) {
+  .bio-intro { grid-template-columns: 1fr; }
+  .bio-photo { width: min(86vw, 400px); }
+}
+
+@media (max-width: 560px) {
+  .availability-sticker {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: max-content;
+    min-width: 150px;
+    margin: 1rem auto -.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-inner .availability-sticker {
+    opacity: 1;
+    transform: rotate(4deg);
+    animation: none !important;
+  }
+}

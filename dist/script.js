@@ -9,14 +9,14 @@ function updateHeader() {
 
 function closeMenu() {
   menuToggle?.setAttribute('aria-expanded', 'false')
-  menuToggle?.setAttribute('aria-label', 'Abrir menú')
+  menuToggle?.setAttribute('aria-label', 'Open menu')
   navigation?.classList.remove('open')
 }
 
 menuToggle?.addEventListener('click', () => {
   const willOpen = menuToggle.getAttribute('aria-expanded') !== 'true'
   menuToggle.setAttribute('aria-expanded', String(willOpen))
-  menuToggle.setAttribute('aria-label', willOpen ? 'Cerrar menú' : 'Abrir menú')
+  menuToggle.setAttribute('aria-label', willOpen ? 'Close menu' : 'Open menu')
   navigation?.classList.toggle('open', willOpen)
 })
 
