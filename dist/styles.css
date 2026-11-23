@@ -1320,6 +1320,7 @@ main,
   stroke: rgba(255, 255, 255, .16);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
+  transition: stroke .25s ease;
 }
 
 .nav-wheel-link {
@@ -1345,6 +1346,24 @@ main,
   color: var(--red);
   background: transparent;
   opacity: 1;
+}
+
+.nav-wheel-shell.is-on-accent .nav-wheel-ring ellipse {
+  stroke: rgba(0, 0, 0, .38);
+}
+
+.nav-wheel-shell.is-on-accent .nav-wheel-link {
+  color: rgba(0, 0, 0, .58);
+}
+
+.nav-wheel-shell.is-on-accent .nav-wheel-link:hover,
+.nav-wheel-shell.is-on-accent .nav-wheel-link:focus-visible {
+  color: rgba(0, 0, 0, .92);
+}
+
+.nav-wheel-shell.is-on-accent .nav-wheel-link.is-selected {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .28);
 }
 
 @media (max-width: 900px) {

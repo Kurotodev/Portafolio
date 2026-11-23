@@ -37,7 +37,20 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
     if (!wheelFrame) wheelFrame = window.requestAnimationFrame(renderNavigationWheel)
   }
 
+  function syncWheelContrast() {
+    const bounds = navigationWheel.getBoundingClientRect()
+    const probeX = Math.min(window.innerWidth - 1, bounds.left + bounds.width * 0.5)
+    const probeY = Math.min(window.innerHeight - 1, Math.max(0, bounds.top + bounds.height * 0.5))
+    const backgroundSection = document
+      .elementsFromPoint(probeX, probeY)
+      .map((element) => element.closest('section'))
+      .find(Boolean)
+
+    navigationWheel.classList.toggle('is-on-accent', backgroundSection?.classList.contains('contact'))
+  }
+
   function syncWheelToPage() {
+    syncWheelContrast()
     const checkpoint = window.scrollY + window.innerHeight * 0.46
     let nextIndex = 0
 
