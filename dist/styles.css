@@ -1300,19 +1300,20 @@ main,
 
 .nav-wheel {
   top: 0;
-  right: -120px;
+  right: -165px;
   width: 310px;
   height: 520px;
   border-radius: 50%;
 }
 
-.nav-wheel-ring { border-color: rgba(255, 255, 255, .13); }
+.nav-wheel-ring { border-color: rgba(255, 255, 255, .075); }
 
 .nav-wheel-link {
   min-width: 94px;
   justify-items: end;
   padding: .4rem .7rem;
   color: rgba(255, 255, 255, .38);
+  background: transparent;
   opacity: .72;
   text-align: right;
 }
@@ -1320,11 +1321,13 @@ main,
 .nav-wheel-link:hover,
 .nav-wheel-link:focus-visible {
   color: rgba(255, 255, 255, .78);
+  background: transparent;
   opacity: 1;
 }
 
 .nav-wheel-link.is-selected {
   color: var(--red);
+  background: transparent;
   opacity: 1;
 }
 
@@ -1339,7 +1342,7 @@ main,
   }
   .nav-wheel {
     top: 0;
-    right: -80px;
+    right: -125px;
     width: 240px;
     height: 400px;
   }
