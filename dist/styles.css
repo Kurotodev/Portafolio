@@ -1208,6 +1208,15 @@ footer .brand { color: var(--ink); }
   .nav-wheel-link { transition: none; }
 }
 
+/* Pure black page canvas */
+:root { --bg: #000; }
+html,
+body,
+main,
+.hero { background-color: #000; }
+.noise { display: none; }
+.site-header.scrolled { background: rgba(0, 0, 0, .92); }
+
 /* Layered paint-splash availability animation */
 .availability-sticker {
   top: -.35rem;
