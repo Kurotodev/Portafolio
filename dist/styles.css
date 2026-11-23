@@ -1307,8 +1307,19 @@ main,
 }
 
 .nav-wheel-ring {
-  inset: 14% 4%;
-  border-color: rgba(255, 255, 255, .16);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  border: 0;
+  pointer-events: none;
+}
+
+.nav-wheel-ring ellipse {
+  fill: none;
+  stroke: rgba(255, 255, 255, .16);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
 
 .nav-wheel-link {
@@ -1320,7 +1331,7 @@ main,
   opacity: .72;
   text-align: center;
   box-shadow: none;
-  text-shadow: 0 -3px 0 #000, 0 3px 0 #000, -3px 0 0 #000, 3px 0 0 #000;
+  text-shadow: none;
 }
 
 .nav-wheel-link:hover,
@@ -1351,7 +1362,7 @@ main,
     width: 240px;
     height: 350px;
   }
-  .nav-wheel-ring { inset: 14% 4%; }
+  .nav-wheel-ring { inset: 0; }
   .nav-wheel-link { min-width: 68px; padding: .3rem .4rem; font-size: .55rem; box-shadow: none; }
 }
 
