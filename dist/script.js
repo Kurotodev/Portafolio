@@ -1,5 +1,6 @@
 const navigationWheel = document.querySelector('[data-nav-wheel]')
 const wheelOrbit = document.querySelector('[data-wheel-orbit]')
+const wheelCurve = document.querySelector('[data-wheel-curve]')
 const wheelLinks = Array.from(document.querySelectorAll('[data-wheel-link]'))
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -10,9 +11,35 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
   let selectedWheelIndex = 0
   let wheelFrame = 0
   let wheelScrollLocked = false
+  let wheelTransitionTimer = 0
 
   const normalizedAngle = (angle) => ((angle % 360) + 360) % 360
   const shortestAngle = (angle) => ((angle + 540) % 360) - 180
+
+  function buildNavigationCurve() {
+    if (!wheelCurve) return
+
+    const gapCenters = wheelLinks.map((_, index) => normalizedAngle(270 + index * wheelStep))
+    let path = ''
+    let drawing = false
+
+    for (let angle = 0; angle <= 360; angle += 1) {
+      const isGap = gapCenters.some((center) => Math.abs(shortestAngle(angle - center)) <= 13)
+
+      if (isGap) {
+        drawing = false
+        continue
+      }
+
+      const radians = angle * (Math.PI / 180)
+      const x = 50 + Math.sin(radians) * 46
+      const y = 50 - Math.cos(radians) * 36
+      path += `${drawing ? ' L' : ' M'} ${x.toFixed(2)} ${y.toFixed(2)}`
+      drawing = true
+    }
+
+    wheelCurve.setAttribute('d', path)
+  }
 
   function renderNavigationWheel() {
     wheelFrame = 0
@@ -62,6 +89,13 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
     selectedWheelIndex = nextIndex
     const targetRotation = 270 - selectedWheelIndex * wheelStep
     wheelRotation += shortestAngle(targetRotation - wheelRotation)
+    if (!reduceMotion) {
+      navigationWheel.classList.add('is-rotating')
+      window.clearTimeout(wheelTransitionTimer)
+      wheelTransitionTimer = window.setTimeout(() => {
+        navigationWheel.classList.remove('is-rotating')
+      }, 460)
+    }
     queueWheelRender()
   }
 
@@ -97,6 +131,7 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
 
   window.addEventListener('resize', queueWheelRender)
   window.addEventListener('scroll', syncWheelToPage, { passive: true })
+  buildNavigationCurve()
   renderNavigationWheel()
   syncWheelToPage()
 }

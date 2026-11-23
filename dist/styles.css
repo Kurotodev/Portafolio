@@ -1315,12 +1315,13 @@ main,
   pointer-events: none;
 }
 
-.nav-wheel-ring ellipse {
+.nav-wheel-ring path {
   fill: none;
   stroke: rgba(255, 255, 255, .16);
   stroke-width: 1;
+  stroke-linecap: round;
   vector-effect: non-scaling-stroke;
-  transition: stroke .25s ease;
+  transition: stroke .25s ease, opacity .14s ease;
 }
 
 .nav-wheel-link {
@@ -1348,8 +1349,12 @@ main,
   opacity: 1;
 }
 
-.nav-wheel-shell.is-on-accent .nav-wheel-ring ellipse {
+.nav-wheel-shell.is-on-accent .nav-wheel-ring path {
   stroke: rgba(0, 0, 0, .38);
+}
+
+.nav-wheel-shell.is-rotating .nav-wheel-ring path {
+  opacity: 0;
 }
 
 .nav-wheel-shell.is-on-accent .nav-wheel-link {
