@@ -1052,6 +1052,10 @@ footer .brand { color: var(--ink); }
   margin-inline: auto;
 }
 .hero h1, .hero-lead, .hero-identity { width: 100%; text-align: center; }
+.hero h1.professional-title { font-size: clamp(3.2rem, 6vw, 5.8rem); }
+@media (max-width: 560px) {
+  .hero h1.professional-title { font-size: clamp(2.15rem, 10vw, 2.55rem); }
+}
 
 /* Layered paint-splash availability animation */
 .availability-sticker {
