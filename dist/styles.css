@@ -1289,6 +1289,63 @@ main,
   .nav-wheel-link { min-width: 62px; min-height: auto; font-size: .56rem; }
 }
 
+/* Taller oval navigation, inset from the edge */
+.nav-wheel-shell {
+  top: 50%;
+  right: 0;
+  width: 220px;
+  height: 520px;
+  transform: translateY(-50%);
+}
+
+.nav-wheel {
+  top: 0;
+  right: -120px;
+  width: 310px;
+  height: 520px;
+  border-radius: 50%;
+}
+
+.nav-wheel-ring { border-color: rgba(255, 255, 255, .13); }
+
+.nav-wheel-link {
+  min-width: 94px;
+  justify-items: end;
+  padding: .4rem .7rem;
+  color: rgba(255, 255, 255, .38);
+  opacity: .72;
+  text-align: right;
+}
+
+.nav-wheel-link:hover,
+.nav-wheel-link:focus-visible {
+  color: rgba(255, 255, 255, .78);
+  opacity: 1;
+}
+
+.nav-wheel-link.is-selected {
+  color: var(--red);
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .nav-wheel-shell {
+    top: auto;
+    right: 0;
+    bottom: 12px;
+    width: 160px;
+    height: 400px;
+    transform: none;
+  }
+  .nav-wheel {
+    top: 0;
+    right: -80px;
+    width: 240px;
+    height: 400px;
+  }
+  .nav-wheel-link { min-width: 76px; padding: .3rem .45rem; font-size: .55rem; }
+}
+
 /* Layered paint-splash availability animation */
 .availability-sticker {
   top: -.35rem;
