@@ -725,6 +725,163 @@ footer .brand { color: var(--ink); }
   .passport-card { transform: none !important; }
 }
 
+/* Full-section passport document */
+.bio-intro.passport-document {
+  position: relative;
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, .72fr);
+  gap: 0;
+  max-width: min(var(--max), calc(100% - 2.5rem));
+  margin: clamp(4rem, 8vw, 8rem) auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .2);
+  background:
+    radial-gradient(circle at 82% 40%, rgba(255, 42, 42, .075), transparent 27%),
+    linear-gradient(135deg, #101010 0%, #090909 58%, #0d0808 100%);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, .44), inset 0 0 0 6px #080808, inset 0 0 0 7px rgba(255, 255, 255, .055);
+}
+
+.bio-intro.passport-document::before {
+  content: "K/";
+  position: absolute;
+  right: 8%;
+  top: 18%;
+  color: rgba(255, 42, 42, .035);
+  font-size: clamp(10rem, 23vw, 22rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -.14em;
+  pointer-events: none;
+}
+
+.passport-document-header,
+.passport-document-footer {
+  position: relative;
+  z-index: 2;
+  grid-column: 1 / -1;
+}
+
+.passport-document-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 72px;
+  padding: .85rem 1.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, .13);
+  font-family: var(--font-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.passport-emblem {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  color: white;
+  background: var(--red);
+  font-weight: 900;
+  letter-spacing: -.08em;
+}
+
+.passport-document-header strong,
+.passport-document-header small { display: block; }
+.passport-document-header strong { color: #eeeae5; font-size: .72rem; }
+.passport-document-header small { margin-top: .25rem; color: #68635f; font-size: .55rem; }
+.passport-document-code { color: #8f8984; font-size: .62rem; }
+
+.passport-document .bio-copy {
+  position: relative;
+  z-index: 1;
+  max-width: none;
+  padding: clamp(2.4rem, 5vw, 4.6rem);
+  border-right: 1px solid rgba(255, 255, 255, .11);
+}
+
+.passport-document .bio-copy h2 {
+  max-width: 700px;
+  margin-bottom: 1.5rem;
+  font-size: clamp(2.7rem, 4.5vw, 4.8rem);
+}
+
+.passport-document .bio-copy .bio-lead {
+  max-width: 720px;
+  font-size: clamp(1.05rem, 1.55vw, 1.3rem);
+}
+
+.passport-document .bio-copy > p:last-child { max-width: 700px; }
+
+.passport-identity {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+}
+
+.passport-document .passport-image {
+  max-width: 320px;
+  margin: 0 auto;
+  border-color: rgba(255, 255, 255, .18);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, .32);
+}
+
+.passport-document .passport-image img {
+  height: 175px;
+  object-position: center 18%;
+}
+
+.passport-document .passport-data {
+  max-width: 320px;
+  margin: .8rem auto 0;
+  background: rgba(4, 4, 4, .34);
+}
+
+.passport-document-footer {
+  display: grid;
+  gap: .18rem;
+  padding: .85rem 1.4rem 1rem;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, .13);
+  color: #77716c;
+  background: rgba(0, 0, 0, .28);
+  font-family: var(--font-mono);
+  font-size: clamp(.57rem, 1vw, .72rem);
+  letter-spacing: .16em;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.passport-document-footer span:last-child { color: #514d49; }
+
+@media (max-width: 820px) {
+  .bio-intro.passport-document {
+    grid-template-columns: 1fr;
+    max-width: min(92vw, 620px);
+  }
+  .passport-document .bio-copy {
+    padding: 2.5rem clamp(1.3rem, 6vw, 2.5rem);
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, .11);
+  }
+  .passport-identity { padding: 1.5rem; }
+  .passport-document .passport-image,
+  .passport-document .passport-data { max-width: 360px; }
+}
+
+@media (max-width: 560px) {
+  .passport-document-header { grid-template-columns: auto 1fr; padding: .75rem 1rem; }
+  .passport-document-code { display: none; }
+  .passport-document .bio-copy h2 {
+    max-width: 100%;
+    font-size: clamp(2rem, 11.5vw, 2.8rem);
+    overflow-wrap: anywhere;
+  }
+  .passport-document .bio-copy .bio-lead { font-size: 1rem; }
+  .passport-document .passport-image img { height: 165px; }
+  .passport-document-footer { padding-inline: 1rem; font-size: .55rem; }
+}
+
 /* Explicitly reset the original two-column hero grid. */
 .hero {
   grid-template-columns: minmax(0, 1fr);
