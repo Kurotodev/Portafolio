@@ -1,6 +1,10 @@
 const header = document.querySelector('[data-header]')
 const menuToggle = document.querySelector('[data-menu-toggle]')
 const navigation = document.querySelector('[data-nav]')
+const navigationWheel = document.querySelector('[data-nav-wheel]')
+const wheelOrbit = document.querySelector('[data-wheel-orbit]')
+const wheelLinks = Array.from(document.querySelectorAll('[data-wheel-link]'))
+const wheelGo = document.querySelector('[data-wheel-go]')
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 function updateHeader() {
@@ -24,6 +28,110 @@ navigation?.querySelectorAll('a').forEach((link) => link.addEventListener('click
 window.addEventListener('scroll', updateHeader, { passive: true })
 updateHeader()
 
+if (navigationWheel && wheelOrbit && wheelLinks.length) {
+  let wheelRotation = 0
+  let selectedWheelIndex = 0
+  let dragStartAngle = 0
+  let dragStartRotation = 0
+  let isDraggingWheel = false
+  let wheelFrame = 0
+
+  const normalizedAngle = (angle) => ((angle % 360) + 360) % 360
+  const shortestAngle = (angle) => ((angle + 540) % 360) - 180
+
+  function pointerAngle(event) {
+    const bounds = navigationWheel.getBoundingClientRect()
+    const centerX = bounds.left + bounds.width / 2
+    const centerY = bounds.top + bounds.width / 2
+    return Math.atan2(event.clientY - centerY, event.clientX - centerX) * (180 / Math.PI)
+  }
+
+  function renderNavigationWheel() {
+    wheelFrame = 0
+    const size = wheelOrbit.getBoundingClientRect().width
+    const radius = size * 0.39
+
+    wheelOrbit.style.setProperty('--wheel-rotation', `${wheelRotation}deg`)
+
+    wheelLinks.forEach((link, index) => {
+      const angle = normalizedAngle(index * 90 + wheelRotation)
+      const radians = angle * (Math.PI / 180)
+      const x = Math.sin(radians) * radius
+      const y = -Math.cos(radians) * radius
+      link.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`
+    })
+
+    selectedWheelIndex = ((Math.round(-wheelRotation / 90) % wheelLinks.length) + wheelLinks.length) % wheelLinks.length
+    wheelLinks.forEach((link, index) => {
+      const isSelected = index === selectedWheelIndex
+      link.classList.toggle('is-selected', isSelected)
+      if (isSelected) link.setAttribute('aria-current', 'true')
+      else link.removeAttribute('aria-current')
+    })
+  }
+
+  function queueWheelRender() {
+    if (!wheelFrame) wheelFrame = window.requestAnimationFrame(renderNavigationWheel)
+  }
+
+  function rotateWheelBy(delta) {
+    wheelRotation += delta
+    queueWheelRender()
+  }
+
+  function openSelectedWheelLink() {
+    wheelLinks[selectedWheelIndex]?.click()
+  }
+
+  navigationWheel.addEventListener('wheel', (event) => {
+    event.preventDefault()
+    rotateWheelBy(Math.sign(event.deltaY) * 12)
+  }, { passive: false })
+
+  navigationWheel.addEventListener('pointerdown', (event) => {
+    if (event.target.closest('a, button')) return
+    isDraggingWheel = true
+    dragStartAngle = pointerAngle(event)
+    dragStartRotation = wheelRotation
+    navigationWheel.classList.add('is-dragging')
+    navigationWheel.setPointerCapture(event.pointerId)
+  })
+
+  navigationWheel.addEventListener('pointermove', (event) => {
+    if (!isDraggingWheel) return
+    wheelRotation = dragStartRotation + shortestAngle(pointerAngle(event) - dragStartAngle)
+    queueWheelRender()
+  })
+
+  function stopWheelDrag(event) {
+    if (!isDraggingWheel) return
+    isDraggingWheel = false
+    navigationWheel.classList.remove('is-dragging')
+    if (navigationWheel.hasPointerCapture(event.pointerId)) navigationWheel.releasePointerCapture(event.pointerId)
+    wheelRotation = Math.round(wheelRotation / 90) * 90
+    queueWheelRender()
+  }
+
+  navigationWheel.addEventListener('pointerup', stopWheelDrag)
+  navigationWheel.addEventListener('pointercancel', stopWheelDrag)
+  navigationWheel.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      event.preventDefault()
+      rotateWheelBy(-90)
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      event.preventDefault()
+      rotateWheelBy(90)
+    } else if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      openSelectedWheelLink()
+    }
+  })
+
+  wheelGo?.addEventListener('click', openSelectedWheelLink)
+  window.addEventListener('resize', queueWheelRender)
+  renderNavigationWheel()
+}
+
 document.querySelectorAll('[data-year]').forEach((element) => {
   element.textContent = String(new Date().getFullYear())
 })
@@ -42,7 +150,7 @@ const letterMotionSelector = [
   'dt',
   'dd',
   '.brand',
-  '.site-nav a',
+  '.nav-wheel-link',
   '.button',
   '.passport-document-header > span',
   '.passport-document-footer span',

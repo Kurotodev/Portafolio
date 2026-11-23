@@ -1057,6 +1057,157 @@ footer .brand { color: var(--ink); }
   .hero h1.professional-title { font-size: clamp(2.15rem, 10vw, 2.55rem); }
 }
 
+/* Rotating wheel navigation */
+.nav-wheel-shell {
+  --wheel-size: 210px;
+  position: fixed;
+  z-index: 45;
+  top: 50%;
+  right: 22px;
+  width: var(--wheel-size);
+  height: calc(var(--wheel-size) + 28px);
+  color: #fff;
+  outline: none;
+  transform: translateY(-50%);
+  touch-action: none;
+  user-select: none;
+}
+
+.nav-wheel-shell:focus-visible .nav-wheel {
+  box-shadow: 0 0 0 2px var(--red), 0 22px 70px rgba(0, 0, 0, .55);
+}
+
+.nav-wheel {
+  position: relative;
+  width: var(--wheel-size);
+  height: var(--wheel-size);
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 50%;
+  background: rgba(8, 8, 8, .88);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, .55), inset 0 0 0 7px rgba(255, 255, 255, .025);
+  backdrop-filter: blur(16px);
+  cursor: grab;
+}
+
+.nav-wheel-shell.is-dragging .nav-wheel { cursor: grabbing; }
+
+.nav-wheel-ring {
+  position: absolute;
+  inset: 19px;
+  border: 1px dashed rgba(255, 255, 255, .16);
+  border-radius: 50%;
+  background: conic-gradient(from var(--wheel-rotation), rgba(255, 42, 42, .3), transparent 13%, transparent 25%, rgba(255, 255, 255, .08) 25.5%, transparent 26%, transparent 50%, rgba(255, 255, 255, .08) 50.5%, transparent 51%, transparent 75%, rgba(255, 255, 255, .08) 75.5%, transparent 76%);
+  transition: background .2s;
+}
+
+.nav-wheel-ring::after {
+  content: "";
+  position: absolute;
+  inset: 31px;
+  border: 1px solid rgba(255, 255, 255, .09);
+  border-radius: 50%;
+}
+
+.nav-wheel-selector {
+  position: absolute;
+  z-index: 5;
+  top: -7px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-right: 8px solid transparent;
+  border-bottom: 13px solid var(--red);
+  border-left: 8px solid transparent;
+  filter: drop-shadow(0 0 8px rgba(255, 42, 42, .6));
+  transform: translateX(-50%) rotate(180deg);
+}
+
+.nav-wheel-link {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  min-width: 66px;
+  min-height: 28px;
+  place-items: center;
+  padding: .35rem .45rem;
+  color: #77726e;
+  border: 1px solid transparent;
+  background: #0a0a0a;
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: color .2s, border-color .2s, background .2s, box-shadow .2s;
+}
+
+.nav-wheel-link:hover,
+.nav-wheel-link:focus-visible,
+.nav-wheel-link.is-selected {
+  color: #fff;
+  border-color: rgba(255, 42, 42, .7);
+  background: #170808;
+  box-shadow: 0 0 18px rgba(255, 42, 42, .16);
+  outline: none;
+}
+
+.nav-wheel-hub {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  place-items: center;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 8px 26px rgba(255, 42, 42, .24);
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 800;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.nav-wheel-hub:hover { background: #e71920; }
+.nav-wheel-hint {
+  display: block;
+  margin-top: 8px;
+  color: #625e5a;
+  font-family: var(--font-mono);
+  font-size: .56rem;
+  letter-spacing: .12em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .nav-wheel-shell {
+    --wheel-size: 156px;
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+    height: var(--wheel-size);
+    transform: none;
+  }
+  .nav-wheel { backdrop-filter: blur(10px); }
+  .nav-wheel-ring { inset: 14px; }
+  .nav-wheel-ring::after { inset: 23px; }
+  .nav-wheel-link { min-width: 52px; min-height: 24px; padding: .25rem; font-size: .5rem; }
+  .nav-wheel-hub { width: 42px; height: 42px; }
+  .nav-wheel-hint { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-wheel-link { transition: none; }
+}
+
 /* Layered paint-splash availability animation */
 .availability-sticker {
   top: -.35rem;

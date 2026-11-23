@@ -25,14 +25,17 @@
         <span class="brand-mark">K/</span>
         <span>KUROTO</span>
       </a>
-      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
-        <span></span><span></span>
-      </button>
-      <nav class="site-nav" aria-label="Main navigation" data-nav>
-        <a href="#perfil">Profile</a>
-        <a href="#proyectos">Projects</a>
-        <a href="#stack">Stack</a>
-        <a class="nav-contact" href="#contacto">Let's talk</a>
+      <nav class="nav-wheel-shell" aria-label="Rotating main navigation" tabindex="0" data-nav-wheel>
+        <span class="nav-wheel-selector" aria-hidden="true"></span>
+        <div class="nav-wheel" data-wheel-orbit>
+          <span class="nav-wheel-ring" aria-hidden="true"></span>
+          <a class="nav-wheel-link" href="#perfil" data-wheel-link data-index="0">Profile</a>
+          <a class="nav-wheel-link" href="#proyectos" data-wheel-link data-index="1">Projects</a>
+          <a class="nav-wheel-link" href="#stack" data-wheel-link data-index="2">Stack</a>
+          <a class="nav-wheel-link" href="#contacto" data-wheel-link data-index="3">Contact</a>
+          <button class="nav-wheel-hub" type="button" aria-label="Open selected section" data-wheel-go>K/</button>
+        </div>
+        <span class="nav-wheel-hint" aria-hidden="true">Scroll · drag</span>
       </nav>
     </header>
 
