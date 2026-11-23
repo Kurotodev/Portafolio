@@ -19,12 +19,11 @@ if (navigationWheel && wheelOrbit && wheelLinks.length) {
   function buildNavigationCurve() {
     if (!wheelCurve) return
 
-    const gapCenters = wheelLinks.map((_, index) => normalizedAngle(270 + index * wheelStep))
     let path = ''
     let drawing = false
 
-    for (let angle = 0; angle <= 360; angle += 1) {
-      const isGap = gapCenters.some((center) => Math.abs(shortestAngle(angle - center)) <= 13)
+    for (let angle = 211; angle <= 329; angle += 1) {
+      const isGap = Math.abs(shortestAngle(angle - 270)) <= 13
 
       if (isGap) {
         drawing = false
