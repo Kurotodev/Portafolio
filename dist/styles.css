@@ -1063,7 +1063,7 @@ footer .brand { color: var(--ink); }
   position: fixed;
   z-index: 45;
   top: 50%;
-  right: 22px;
+  right: -105px;
   width: var(--wheel-size);
   height: calc(var(--wheel-size) + 28px);
   color: #fff;
@@ -1177,7 +1177,7 @@ footer .brand { color: var(--ink); }
 
 .nav-wheel-hub:hover { background: #e71920; }
 .nav-wheel-hint {
-  display: block;
+  display: none;
   margin-top: 8px;
   color: #625e5a;
   font-family: var(--font-mono);
@@ -1191,7 +1191,7 @@ footer .brand { color: var(--ink); }
   .nav-wheel-shell {
     --wheel-size: 156px;
     top: auto;
-    right: 12px;
+    right: -78px;
     bottom: 12px;
     height: var(--wheel-size);
     transform: none;
