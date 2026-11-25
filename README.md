@@ -4,18 +4,19 @@ Portafolio personal de Kuroto, desarrollador full-stack especializado en edge co
 
 ## Vista local
 
-El sitio es estático. Abre `dist/index.html` o sirve la carpeta `dist` con cualquier servidor HTTP.
-
 ```bash
-npx serve dist
+npm ci
+npm run dev
 ```
+
+Abre [localhost:3000](http://localhost:3000/).
 
 ## Estructura
 
-- `dist/index.html`: contenido y estructura accesible.
-- `dist/styles.css`: sistema visual negro y rojo, responsive.
-- `dist/script.js`: navegación móvil, animaciones y mejoras de interacción.
+- `index.html` reúne los componentes HTML de `src/components/`.
+- `src/main.js` actualiza la edad automáticamente cada 1 de enero.
+- `src/components/` contiene portada, proyectos, educación y habilidades, proceso y contacto.
+- `src/styles/` contiene los estilos de la página adaptable.
+- `public/` contiene la foto y el icono.
 
-## Despliegue
-
-La configuración de ChatGPT Sites se encuentra en `.openai/hosting.json`.
+`npm run build` genera el sitio estático en `dist/`. `npm run preview` sirve ese resultado en [localhost:4173](http://localhost:4173/).
