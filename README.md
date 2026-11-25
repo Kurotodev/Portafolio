@@ -14,7 +14,7 @@ Abre [localhost:3000](http://localhost:3000/).
 ## Estructura
 
 - `index.html` reúne los componentes HTML de `src/components/`.
-- `src/main.js` actualiza la edad automáticamente cada 1 de enero.
+- `src/main.js` inicializa las fechas y animaciones de la interfaz.
 - `src/components/` contiene portada, proyectos, educación y habilidades, proceso y contacto.
 - `src/styles/` contiene los estilos de la página adaptable.
 - `public/` contiene la foto y el icono.
